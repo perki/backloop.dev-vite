@@ -1,6 +1,6 @@
 export default backloop;
-declare function backloop(hostname?: string): {
+declare function backloop(hostname?: string, port?: number): {
     name: string;
-    apply: string;
-    config(options: any): void;
+    apply: ConfigEnv;
+    config(options: UserConfigExport): void;
 };
