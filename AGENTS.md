@@ -82,8 +82,13 @@ entry pointing at a file that is not present.
 The branch must never touch a file `main` also touches, or a rebase can conflict and the
 published build starts to drift from the tag it claims. To publish:
 
+The published tarball therefore differs from the tag of the same name by that one file.
+A `-npm` tag makes that explicit, so the artifact on the registry always has a git ref
+that describes it exactly:
+
 ```bash
 git checkout npm && git rebase main     # must never conflict
+git tag -f v<version>-npm && git push -f origin npm --tags
 npm publish
 git checkout main
 ```
