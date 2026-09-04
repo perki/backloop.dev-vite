@@ -70,3 +70,20 @@ which is the hub for the whole project. Its `tools/setup.sh` clones this reposit
 `packages/`, installs it, and links the two packages against each other so a change in
 one is testable from the other without publishing. Working directly in a standalone
 clone is fine too; the hub only saves the wiring.
+
+## The npm branch
+
+`main` is what the repository is. The `npm` branch is `main` plus exactly one file,
+`npm-distribution-warning.js`, and it is what gets published to the registry — so a copy
+installed from npm says it is no longer updated there, and a copy installed from git says
+nothing. `package.json` on `main` already lists that filename in `files`; npm ignores an
+entry pointing at a file that is not present.
+
+The branch must never touch a file `main` also touches, or a rebase can conflict and the
+published build starts to drift from the tag it claims. To publish:
+
+```bash
+git checkout npm && git rebase main     # must never conflict
+npm publish
+git checkout main
+```

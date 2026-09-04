@@ -26,6 +26,15 @@ function backloop (hostname = 'whatever', port) {
     name: 'backloop.dev',
     apply: 'serve',
     async config (options) {
+      // A build published to npm carries an extra module saying so; this
+      // repository does not, and neither does a copy installed from git. Its
+      // absence is the normal case, which is why this is swallowed. Keeping the
+      // text in a file of its own lets the `npm` branch be this branch plus one
+      // new file, so it rebases without ever conflicting.
+      try {
+        (await import('./npm-distribution-warning.js')).show();
+      } catch (e) { /* not a build published to npm */ }
+
       const { httpsOptionsPromise } = require('backloop.dev');
       options.server = options.server || {};
       options.server.host = `${hostname}.backloop.dev`;
