@@ -12,6 +12,11 @@
  * This file must remain the *only* difference between the two branches.
  */
 export function show () {
+  // The plugin speaks first — its config hook runs before it loads
+  // `backloop.dev` — and its message already names both dependencies. Claiming
+  // the flag here keeps that package quiet instead of repeating it.
+  globalThis[Symbol.for('backloop.dev.distributionWarningShown')] = true;
+
   console.log('');
   console.log('  ⚠️  vite-plugin-backloop.dev will not be updated on npm anymore,');
   console.log('     and is reserved for private usage.');
