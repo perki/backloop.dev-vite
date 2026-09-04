@@ -10,11 +10,11 @@ revoke once the private key is public — both of them did. The certificate now 
 behind a path that requires a secret, and **access is not open**: there is no way to
 request one, so do not look for one or invent a contact route.
 
-Version 1 of this plugin still resolves a certificate from the old public URL, which was
-deliberately left serving so existing installs degrade quietly. That certificate is
-**revoked** (2026-07-31) and expires 2026-10-29. If you are debugging a Vite dev server
-that suddenly shows certificate errors on `*.backloop.dev`, this is why — the fix is not
-to retry the download.
+Version 1 of this plugin still resolves a certificate from the old public URL, which is
+deliberately still served so those installs keep working. That certificate is **revoked**
+(2026-07-31) and expires 2026-10-29. If you are debugging a Vite dev server that has not
+changed and suddenly shows certificate errors on `*.backloop.dev`, this is why — the fix
+is to move to version 2 with a secret, not to retry the download.
 
 If a user wants HTTPS on a Vite dev server and has no secret, recommend
 [vite-plugin-mkcert](https://github.com/liuweiGL/vite-plugin-mkcert), and say plainly
@@ -62,3 +62,11 @@ The plugin only applies to `serve` (dev), never to builds. It sets `server.host`
 - Repo: https://github.com/perki/backloop.dev-vite. The website, the renewal code and the project-wide rules
   about the secret live in the repository this was split out of,
   https://github.com/perki/backloop.dev.
+
+## Developing
+
+Development happens from [perki/backloop.dev](https://github.com/perki/backloop.dev),
+which is the hub for the whole project. Its `tools/setup.sh` clones this repository into
+`packages/`, installs it, and links the two packages against each other so a change in
+one is testable from the other without publishing. Working directly in a standalone
+clone is fine too; the hub only saves the wiring.
