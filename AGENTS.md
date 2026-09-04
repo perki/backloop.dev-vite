@@ -92,3 +92,8 @@ git tag -f v<version>-npm && git push -f origin npm --tags
 npm publish
 git checkout main
 ```
+
+Only one distribution warning is shown per process. The plugin's message names both
+dependencies, so it claims `Symbol.for('backloop.dev.distributionWarningShown')` on
+`globalThis` and `backloop.dev` then stays quiet. Change the symbol name here and you
+must change it there.
