@@ -61,6 +61,14 @@ Launch viteJs in dev model `npm run dev`
 
 Open `https://myComputer.backloop.dev:<port>`
 
+## Production builds
+
+The plugin applies to `serve` only and loads the certificate inside its hook, so
+`vite build` neither needs a secret nor makes a request. Before 2.0.1 it imported the
+certificate at module load: a build downloaded one for nothing, and on Node 22 or later
+it failed outright with `ERR_REQUIRE_ASYNC_MODULE`, because Vite loads `vite.config.js`
+with `require()` and the import pulled in a top-level `await`.
+
 ## Configuring the secret
 
 The plugin takes no secret of its own — it uses whatever the `backloop.dev` package
